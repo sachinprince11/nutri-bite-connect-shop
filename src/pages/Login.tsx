@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
-import { Mail, Lock, GitHub, ArrowRight } from "lucide-react";
+import { Mail, Lock, Github, ArrowRight } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -213,7 +213,7 @@ const Login = () => {
                   onClick={handleGithubLogin}
                   disabled={isLoading}
                 >
-                  <GitHub className="mr-2 h-4 w-4" />
+                  <Github className="mr-2 h-4 w-4" />
                   GitHub
                 </Button>
               </div>
