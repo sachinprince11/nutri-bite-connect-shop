@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { 
-  Menu, X, ShoppingCart, User, Sun, Moon
+  Menu, X, ShoppingCart, User, Sun, Moon, LogOut
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,10 +16,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,14 +95,29 @@ const Navbar = () => {
             </Button>
           </Link>
           
-          <Link to="/login">
-            <Button variant="ghost" size="icon" className="text-foreground hover:text-nutri-primary md:hidden">
-              <User size={20} />
-            </Button>
-            <Button variant="outline" className="hidden md:flex">
-              <User size={18} className="mr-2" /> Login
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex items-center">
+                  <User size={18} className="mr-2" /> Account
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={logout} className="cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" /> Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link to="/login">
+              <Button variant="ghost" size="icon" className="text-foreground hover:text-nutri-primary md:hidden">
+                <User size={20} />
+              </Button>
+              <Button variant="outline" className="hidden md:flex">
+                <User size={18} className="mr-2" /> Login
+              </Button>
+            </Link>
+          )}
 
           {/* Mobile Navigation */}
           <Sheet>
@@ -120,6 +137,15 @@ const Navbar = () => {
                     {link.name}
                   </Link>
                 ))}
+                
+                {isAuthenticated && (
+                  <button 
+                    onClick={logout}
+                    className="text-foreground hover:text-nutri-primary font-medium transition-colors text-lg flex items-center"
+                  >
+                    <LogOut className="mr-2 h-5 w-5" /> Logout
+                  </button>
+                )}
               </div>
             </SheetContent>
           </Sheet>
